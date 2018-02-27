@@ -121,6 +121,9 @@ Although has many advantage over flat architect and also cell v1, but cell v2 st
 
 This is a problem because when a volume is attached to an instance in the nova-compute service, and [cinder]/cross_az_attach=False in nova.conf, we attempt to look up the availability zone that the instance is in which includes getting any host aggregates that the instance.host is in. Since the aggregates are in the API database and the cell conductor cannot access that information, so this will fail. In the future this check could be moved to the nova-api service such that the availability zone between the instance and the volume is checked before we reach the cell, except in the case of boot from volume where the nova-compute service itself creates the volume and must tell Cinder in which availability zone to create the volume. Long-term, volume creation during boot from volume should be moved to the top-level superconductor which would eliminate this AZ up-call check problem.
 
+Why can't we make a upcall from cell to api database? 
+
+-> Because security reason.
 
 ## References
 
